@@ -1,0 +1,19 @@
+query LoginUser($username: String!, $password: String!) {
+  loginUser(username: $username, password: $password) {
+    id
+    email
+    username
+    phone
+    countryCode
+    status
+    passwordValidTill
+    sessionExpired
+    userType {
+      typeName
+    }
+    jwt
+    firstName
+    lastName
+    createdAt
+  }
+}

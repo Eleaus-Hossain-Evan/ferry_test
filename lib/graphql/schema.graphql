@@ -1,0 +1,1731 @@
+"""
+Indicates exactly one field must be supplied and this field must not be `null`.
+"""
+directive @oneOf on INPUT_OBJECT
+
+type Feature {
+  id: Int
+  key: String
+  title: String
+  type: String
+}
+
+type RoleFeature {
+  id: Int
+  featureId: Int
+  userTypeId: Int
+  feature: Feature
+}
+
+type UserType {
+  id: Int
+  typeName: String
+  description: String
+  roleFeatures: [RoleFeature]
+}
+
+type UserAccessSetting {
+  id: Int
+  userId: Int
+  countryCode: String
+  accessLevel: String
+  isSelectedAllState: Boolean
+  selectedStates: String
+  selectedStoreIds: String
+  selectedCategoryIds: String
+  selectedProductIds: String
+  createdAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserFeature {
+  id: Int
+  featureId: Int
+  userId: Int
+  feature: Feature
+  createdAt: DateTime
+}
+
+type Product {
+  id: Int
+  categoryId: Int
+  category: Category
+  brand: String
+  status: String
+  createdAt: DateTime
+}
+
+type Category {
+  id: Int
+  categoryName: String
+  bookJobIcon: String
+  advancePaymentPercent: Float
+  status: String
+  products: [Product]
+  jobs: [Job]
+  countryCode: String
+}
+
+type TechnicianComplianceCertificateCategory {
+  id: Int
+  categoryId: Float
+  technicianId: Float
+}
+
+type TechnicianLegalType {
+  id: Int
+  legalType: String
+  legalName: String
+  order: Int
+}
+
+type TechnicianLicensePolicy {
+  id: Int
+  expiryDate: DateTime
+  legalNo: String
+  attachment: String
+  status: String
+  remainder: String
+  reminderDate: DateTime
+  rejectionNote: String
+  technicianlegalType: TechnicianLegalType
+  technicianId: Int
+  technicianlegalTypeId: Float
+}
+
+type Team {
+  id: Int
+  name: String
+  status: String
+  color: String
+  technicianId: Int
+  technician: Technician
+  teamUserId: Int
+  teamUser: User
+  createdAt: DateTime
+}
+
+type JobTechnicianTeam {
+  id: Int
+  teamId: Int
+  team: Team
+  jobTechnicianId: Int
+  jobTechnician: JobTechnician
+}
+
+type Technician {
+  id: Int
+  businessEmail: String
+  address: String
+  technicianGrade: String
+  abn: String
+  jobArea: String
+  teams: [Team]
+  adminComment: String
+  companyLogo: String
+  accountName: String
+  jobAreaExtended: String
+  showReport: Boolean
+  state: String
+  countryCode: String
+  attachment: String
+  status: String
+  activityStatus: String
+  color: String
+  totalTechnicianCommission: Float
+  technicianCommissionShowOnApp: Boolean
+  complianceCertificateStatusSummary: Boolean
+  technicianUserId: Int
+  technicianUser: User
+  technicianCategories: [TechnicianCategory]
+  technicianComplianceCertificateCategories: [TechnicianComplianceCertificateCategory]
+  jobTechnicians: [JobTechnician]
+  technicianLicensePolicies: [TechnicianLicensePolicy]
+  businessName: String
+  accountNumber: String
+  bsb: String
+  assignedJobsCount: Float
+  acceptedJobsCount: Float
+  needAdditionalDocument: Boolean
+  createdAt: DateTime
+}
+
+type TechnicianCategory {
+  id: Int
+  categoryId: Int
+  category: Category
+  technicianId: Int
+}
+
+type Region {
+  id: Int
+  countryCode: String
+  state: String
+  region: String
+  status: String
+}
+
+type SalePersonsCommission {
+  id: Int
+  category: Category
+  store: Store
+  commission: Float
+  categoryId: Float
+  storeId: Float
+  createdAt: DateTime
+}
+
+type StoreCategory {
+  id: Int
+  categoryId: Int
+  category: Category
+  storeId: Int
+  store: Store
+}
+
+type Store {
+  id: Int
+  address: String
+  state: String
+  countryCode: String
+  status: String
+  contact: String
+  tentativeJobDelay: Int
+  processPayment: Boolean
+  sendInvoice: Boolean
+  smsNotification: Boolean
+  regionId: Int
+  region: Region
+  storeUserId: Int
+  storeUser: User
+  adminComment: String
+  accessToUseCreditCard: Boolean
+  accessToUseInStoreFinance: Boolean
+  accessToUseInStorePayment: Boolean
+  accessToManualJobRequest: Boolean
+  isSendStoreInvoiceInBackground: Boolean
+  divCode: String
+  salePersonsCommissions: [SalePersonsCommission]
+  categories: [StoreCategory]
+  jobs: [Job]
+  storeName: String
+  addressStreet: String
+  addressSuburb: String
+  addressState: String
+  addressPostcode: String
+  createdAt: DateTime
+}
+
+type MainService {
+  id: Int
+  productId: Int
+  product: Category
+  service: String
+  type: String
+  description: String
+  status: String
+  lessTechnicianCommission: Float
+  attachment: String
+  isItPossibleQuoteToJob: Boolean
+  customerDiscount: Float
+  isEmailSendToStore: Boolean
+  isEmailSendToCustomer: Boolean
+  isEmailSendToSpecificPerson: String
+  prices: [MainServicePrice]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MainServicePrice {
+  id: Int
+  state: String
+  mainServiceId: Int
+  mainService: MainService
+  storeId: Int
+  store: Store
+  price: Float
+  discount: Float
+  otherCommission: Float
+  technicianCommission: Float
+  gradeATechnicianCommission: Float
+  gradeBTechnicianCommission: Float
+  gradeCTechnicianCommission: Float
+  gradeDTechnicianCommission: Float
+  status: String
+}
+
+type ProductModel {
+  id: Int
+  categoryId: Int
+  category: Category
+  productId: Int
+  product: Product
+  type: String
+  modelNo: String
+  status: String
+  createdAt: DateTime
+}
+
+type JobServiceProductModel {
+  id: Int
+  productId: Int
+  product: Product
+  productModelId: Int
+  productModel: ProductModel
+  modelNo: String
+  jobServiceId: Float
+  createdAt: DateTime
+}
+
+type Addon {
+  id: Int
+  productId: Int
+  product: Category
+  storeId: Int
+  store: Store
+  title: String
+  description: String
+  state: String
+  price: Float
+  technicianCommission: Float
+  status: String
+  attachment: String
+  isRequiredExtraNotes: Boolean
+  gradeATechnicianCommission: Float
+  gradeBTechnicianCommission: Float
+  gradeCTechnicianCommission: Float
+  gradeDTechnicianCommission: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type JobServiceAddon {
+  id: Int
+  jobId: Int
+  addonId: Int
+  addon: Addon
+  quantity: Int
+  initialName: String
+  initialDescription: String
+  initialPrice: Float
+  notes: String
+  total: Float
+  technicianCommission: Float
+  initialTechnicianCommission: Float
+  jobServiceId: Float
+  job: Job
+  createdAt: DateTime
+}
+
+type JobService {
+  id: Int
+  jobId: Int
+  mainServicePriceId: Int
+  mainServicePrice: MainServicePrice
+  jobServiceAddons: [JobServiceAddon]
+  quantity: Int
+  initialName: String
+  initialDescription: String
+  initialPrice: Float
+  initialTechnicianCommission: Float
+  total: Float
+  totalAmountIncludingAddons: Float
+  technicianCommission: Float
+  serialNo: Int
+  jobServiceProductModelId: Int
+  jobServiceProductModel: JobServiceProductModel
+  job: Job
+  createdAt: DateTime
+}
+
+type JobSalePeople {
+  id: Int
+  jobId: Int
+  job: Job
+  salePeopleId: Int
+  salePeople: SalePeople
+  quantity: Int
+  total: Float
+  status: String
+  salesPersonPaymentFile: String
+  paymentAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  salePersonsCommission: SalePersonsCommission
+  commission: Float
+}
+
+type SalePeople {
+  id: Int
+  storeId: Int
+  payRollNr: String
+  status: String
+  firstName: String!
+  lastName: String
+  store: Store
+  createdAt: DateTime
+}
+
+type JobDocument {
+  id: Int
+  type: String
+  status: String
+  reason: String
+  file: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  jobId: Float
+}
+
+type JobComment {
+  id: Int
+  jobId: Int
+  job: Job
+  creatorId: Int
+  creator: User
+  contextType: String
+  message: String
+  createdAt: DateTime
+}
+
+type ContraPaymentHistory {
+  id: Int
+  summaryFile: String
+  creatorId: Int
+  creator: User
+  adminPays: [AdminPay]
+  createdAt: DateTime
+}
+
+type AdminPay {
+  id: Int
+  creatorId: Int
+  creator: User
+  jobId: Int
+  job: Job
+  amount: Float
+  payComment: String
+  type: String
+  referenceNo: String
+  salePeopleId: Int
+  salePeople: SalePeople
+  contraPaymentHistoryId: Int
+  status: String
+  paymentFile: String
+  invoiceDate: DateTime
+  paymentReceived: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+  contraPaymentHistory: ContraPaymentHistory
+}
+
+type Job {
+  id: Int
+  creatorId: Int
+  isManualRequestComing: Boolean
+  isQuoteDraft: Boolean
+  type: String
+  customerName: String
+  paymentLink: String
+  store: Store
+  storeId: Int
+  jobServices: [JobService]
+  jobSalePeople: [JobSalePeople]
+  salePeopleId: Int
+  salePeople: SalePeople
+  jobDocuments: [JobDocument]
+  jobComments: [JobComment]
+  adminPays: [AdminPay]
+  technicianAction: String
+  jobNumber: String
+  jobTechnicians: [JobTechnician]
+  categoryId: Int
+  category: Category
+  isExternalPayment: Boolean
+  posInvoiceNumber: String
+  tentativeDateStart: DateTime
+  tentativeDateEnd: DateTime
+  customerPhone: String
+  customerEmail: String
+  customerAddress: String
+  customerHouseNo: String
+  customerAddressStreet: String
+  customerAddressSuburb: String
+  customerAddressState: String
+  customerAddressPostcode: String
+  salespersonName: String
+  qbccStatus: Boolean
+  complianceCertificateStatus: String
+  qbccDocument: String
+  tenantsPhone: String
+  tenantsName: String
+  EWAY_ACCESSCODE: String
+  availableWarehouse: String
+  status: String
+  deleteReason: String
+  attachment: String
+  airconSetupFrom: String
+  total: Float
+  discount: Float
+  technicianCommission: Float
+  otherCommission: Float
+  totalDue: Float
+  refundAmount: Float
+  refundDate: DateTime
+  quoteRefNumber: Int
+  splitJobId: Int
+  referenceJobId: Int
+  isFixingJob: Int
+  metaData: String
+  specialDiscount: Float
+  specialDiscountComment: String
+  creator: User
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Notification {
+  id: Int
+  message: String
+  contextId: Int
+  contextType: String
+  subContextType: String
+  creatorId: Int
+  creator: User
+  receiverRole: Int
+  receiverUserId: Int
+  receiverUser: User
+  additional: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type User {
+  id: Int
+  email: String
+  username: String
+  phone: String
+  countryCode: String
+  status: String
+  passwordValidTill: DateTime
+  sessionExpired: Boolean
+  userType: UserType
+  userAccessSettings: [UserAccessSetting]
+  userFeatures: [UserFeature]
+  jwt: String
+  firstName: String
+  lastName: String
+  createdAt: DateTime
+}
+
+type FranchiseeStore {
+  id: Int
+  franchiseeUserId: Int
+  franchiseeUser: User
+  storeId: Int
+  store: Store
+  createdAt: DateTime
+}
+
+type TechniciansBulkPayment {
+  id: Int
+  bankFile: String
+  summaryFile: String
+  creatorId: Int
+  creator: User
+  jobTechnicians: [JobTechnician]
+  createdAt: DateTime
+}
+
+type JobTechnician {
+  id: Int
+  jobCompletedByAdminId: Int
+  jobCompletedByAdmin: User
+  jobDeclinedByAdminId: Int
+  jobDeclinedByAdmin: User
+  declineReason: String
+  bookedDateEnd: DateTime
+  techniciansBulkPaymentId: Int
+  jobId: Int
+  job: Job
+  paymentAt: DateTime
+  technicianPaymentFile: String
+  technicianId: Int
+  technician: Technician
+  jobTechnicianTeams: [JobTechnicianTeam]
+  action: String
+  paymentStatus: String
+  completeDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  additionalDocument: String
+  bookedDate: DateTime
+  techniciansBulkPayment: TechniciansBulkPayment
+  secondReminderDateForAcceptance: DateTime
+  firstReminderDateForAcceptance: DateTime
+}
+
+type JobDelays {
+  state: String
+  delayInDays: Int
+  id: Float
+}
+
+type Photo {
+  id: Int
+  filename: String
+  description: String
+  fileLocation: String
+  tags: String
+  createdAt: DateTime!
+  imageLatitude: Float
+  imageLongitude: Float
+  imageCreateDate: DateTime
+  imageCreatePlace: String
+}
+
+type Segmentation {
+  id: Int
+  isDisplay: Boolean
+  targetRole: String
+  store: Store
+  storeId: Int
+  isSelectedAllStore: Boolean
+  technician: Technician
+  technicianId: Int
+  isSelectedAllTechnician: Boolean
+  state: String
+  contentId: Int
+  updatedAt: DateTime
+}
+
+type NoticeBoardContent {
+  id: Int
+  subject: String
+  content: String
+  isDisplay: Boolean
+  segmentations: [Segmentation]
+  expiryDate: DateTime
+  createdAt: DateTime
+}
+
+type Reminder {
+  id: Int
+  creator: String
+  details: String
+  dueDate: DateTime
+  status: String
+  creatorId: Float
+}
+
+type StatusType {
+  id: String!
+  name: String
+}
+
+type PriorityType {
+  id: String!
+  name: String
+}
+
+type IssueFields {
+  summary: String
+  priority: PriorityType!
+  status: StatusType!
+  created: String
+  description: String
+  colorName: String
+}
+
+type Issue {
+  id: String!
+  key: String!
+  fields: IssueFields!
+}
+
+type IssueDataResponse {
+  issues: [Issue!]!
+  totalCount: Int!
+  offset: Int!
+  limit: Int!
+}
+
+type JiraIssueResponse {
+  issueKey: String!
+  issueId: String!
+  requestTypeId: String!
+}
+
+type RequestType {
+  id: String!
+  name: String!
+  description: String!
+  issueTypeId: String!
+}
+
+type Attachment {
+  id: String!
+  content: String!
+  mimeType: String!
+  size: Int!
+  name: String!
+  created: String!
+}
+
+type UserResponse {
+  users: [User]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type AddonsResponse {
+  addons: [Addon]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type MainServiceResponse {
+  mainServices: [MainService]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type TechniciansBulkPaymentResponse {
+  techniciansBulkPayments: [TechniciansBulkPayment]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type TechnicianRemittanceFiles {
+  totalCount: Int
+  limit: Int
+  offset: Int
+  technicianRemittanceFiles: [JobTechnician]
+}
+
+type TechnicianReport {
+  totalTechnicianCommission: Float
+  states: String
+  categories: String
+  technicians: String
+}
+
+type TechnicianResponse {
+  technicians: [Technician]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type TechnicianLicensePolicies {
+  id: Int
+  expiryDate: DateTime
+  legalNo: String
+  attachment: String
+  status: String
+  remainder: String
+  reminderDate: DateTime
+  rejectionNote: String
+  technicianlegalType: TechnicianLegalType
+}
+
+type IndividualPayment {
+  id: Int
+  creatorId: Int
+  creator: User
+  amount: Float
+  cardNumber: String
+  createdAt: DateTime
+  cardType: String
+  type: String
+  status: String
+  referenceNo: String
+  paymentReceived: DateTime
+  invoiceDate: DateTime
+  paymentFile: DateTime
+  salePeopleId: Int
+  salePeople: SalePeople
+  contraPaymentHistoryId: Int
+  transactionId: String
+}
+
+type ServiceReport {
+  numberOfService: Int
+  states: String
+  regions: String
+  products: String
+  brands: String
+  services: String
+  salesPersons: String
+}
+
+type AdminPaysResponse {
+  limit: Int
+  offset: Int
+  totalCount: Int
+  adminPays: [AdminPay]
+  totalPaid: Float
+}
+
+type JobTechnicianResponse {
+  limit: Int
+  offset: Int
+  totalCount: Int
+  jobTechnicians: [JobTechnician]
+}
+
+type JobSearchResponse {
+  limit: Int
+  offset: Int
+  totalCount: Int
+  jobs: [Job]
+}
+
+type JobTotalPaymentResponse {
+  lastPaymentDate: DateTime
+  totalPayment: Float
+  paymentCount: Int
+  payments: [IndividualPayment]
+}
+
+type TechnicianJobsResponse {
+  jobs: [JobTechnician]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type VerifyPaymentResponse {
+  jobId: Int
+  transactionId: String
+  jobNumber: String
+  statusCode: Int
+  error: String
+}
+
+type ContraPaymentHistoryResponse {
+  contraPayments: [ContraPaymentHistory]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type TeamsResponse {
+  teams: [Team]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type CalenderJobDetailResponse {
+  jobNumber: String!
+  jobId: Int
+  jobStatus: String!
+  action: String!
+  bookedDateFrom: DateTime
+  bookedDateTo: DateTime
+  color: String!
+  jobTechnicianTeams: [JobTechnicianTeam]
+  jobTechnicianId: Int
+  technicianName: String!
+}
+
+type CalenderPersonResponse {
+  id: Int!
+  userTypeId: Int
+  name: String!
+  status: String!
+  color: String!
+  logo: String
+  assignedJobsCount: Float
+  acceptedJobsCount: Float
+}
+
+type ProductModelResponse {
+  productModels: [ProductModel]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type ProductResponse {
+  products: [Product]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type StoreResponse {
+  stores: [Store]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type SalesPeopleResponse {
+  salePeoples: [SalePeople]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type SalePersonCommission {
+  id: Int
+  quantity: Float
+  commission: Float
+  total: Float
+  categoryName: String
+}
+
+type SalePersonBasic {
+  totalIncome: Float
+  totalQuantity: Float
+  salesPersonCommission: [SalePersonCommission]
+  firstName: String
+  lastName: String
+  payRollNr: String
+  status: String
+}
+
+type SalesPersonHistory {
+  storeId: Int
+  totalIncomeInStore: Float
+  totalQuantityInStore: Float
+  salesPersons: [SalePersonBasic]
+  storeName: String
+}
+
+type PhotoUploadUrl {
+  fileLocation: String
+  uploadUrl: String
+}
+
+type NoticeBoardContentResponse {
+  notices: [NoticeBoardContent]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type ReminderResponse {
+  reminders: [Reminder]
+  totalCount: Int
+  limit: Int
+  offset: Int
+}
+
+type SiteSettings {
+  id: Float
+  keyString: String
+  value: String
+  userUpdatedId: Float
+  userUpdated: Float
+}
+
+type MobileAppVersion {
+  ios: String
+  android: String
+}
+
+type PbxCallRecord {
+  id: Float!
+  uuid: String!
+  callerName: String
+  callReceiver: String
+  inboundPhone: String!
+  email: String
+  jobs: String
+  status: String!
+  callEndTIme: DateTime
+  duration: String
+  smsSentTime: DateTime
+  emailSentTime: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PbxRecordsResponse {
+  limit: Int
+  offset: Int
+  totalCount: Int
+  pbxCallRecords: [PbxCallRecord]
+}
+
+type Query {
+  getRegions(offset: Int, limit: Int, where: RegionWhere): [Region]
+  stores(storeName: String, states: [String], regionId: Int, storeId: Int, offset: Int!, limit: Int!, id: Int, storeUserId: Int, processPayment: Boolean, smsNotification: Boolean, sendInvoice: Boolean, isSendStoreInvoiceInBackground: Boolean): StoreResponse
+  store(offset: Int, limit: Int, where: StoreWhere): Store
+  storeSearch(storeName: String, states: [String], regionId: Int, storeId: Int, offset: Int!, limit: Int!): StoreResponse
+  loginUser(username: String!, password: String!): User
+  logout(deviceName: DeviceType!): Int
+  getUserTypes: [UserType]
+  getUsers: [User]
+  getUser(id: Int): User
+  getFeatures(type: [String]): [Feature]
+  getAdminUsers(offset: Int, limit: Int, where: UserWhere): UserResponse
+  getFranchiseeUsers(offset: Int, limit: Int): [FranchiseeStore]
+  getFranchiseeUser(where: UserWhere): FranchiseeStore
+  getHeadOfficeUsers(offset: Int, limit: Int, where: UserWhere): [User]
+  me: User
+  notifications(limit: Int!, offset: Int!): [Notification]
+  notificationCount(contextType: [String!]): Int
+  categories(offset: Int, limit: Int, where: CategoryWhere, includeProduct: Boolean, restrictAuth: Boolean, status: String): [Category]
+  products(categoryId: Int, limit: Int, offset: Int, status: String): ProductResponse
+  product(offset: Int, limit: Int, where: ProductWhere): Product
+  productModels(offset: Int, limit: Int, id: Int, productId: Int, categoryId: Int, term: String, status: String, type: String): ProductModelResponse
+  productModel(offset: Int, limit: Int, id: Int, productId: Int, categoryId: Int): ProductModel
+  getMobileAppVersion: MobileAppVersion
+  getSiteSettings: [SiteSettings!]
+  jobSearchByStore(terms: String, storeId: Int, action: String, termType: String, searchValue: String, creatorId: Int, limit: Int, offset: Int): [Job]
+  jobTechnicianSearch(terms: String, paymentStatus: String, state: String): [Technician]
+  jobTechnicians(startDate: DateTime!, endDate: DateTime!, terms: String, action: String, state: String, technicianId: Int, limit: Int, offset: Int): JobTechnicianResponse
+  jobSearch(action: String, terms: String, state: String, storeId: Int, limit: Int, offset: Int, termType: String): JobSearchResponse
+  jobSearchCount(action: String, terms: String, state: String, storeId: Int): Int
+  technicianJobs(action: String, terms: String, termType: String, limit: Int, offset: Int): TechnicianJobsResponse
+  technicianJobsCount(action: String): Int
+  technicianJobSearch(terms: String, termType: String, searchValue: String, limit: Int, offset: Int): TechnicianJobsResponse
+  technicianPayments(startDate: DateTime!, endDate: DateTime!, states: [String], status: String, complianceCertificateStatus: String, technicianId: Int, limit: Int, offset: Int): TechnicianResponse
+  adminPays(startDate: DateTime!, endDate: DateTime!, status: [String], type: [String], state: String, storeId: Int, jobId: Int, limit: Int, offset: Int): AdminPaysResponse
+  jobs(where: JobWhere, limit: Int, offset: Int): [Job]
+  job(where: JobWhere): Job
+  jobDelays(where: JobDelaysWhere, limit: Int, offset: Int): [JobDelays]
+  jobDelay(where: JobDelaysWhere): JobDelays
+  jobServiceReport(dateFrom: DateTime!, dateTo: DateTime!, state: String, region: Float, storeId: Int, categoryId: Int, brand: Int, service: String, isSalesPersonReport: Boolean, includeQuote: Boolean, includeDeletedJob: Boolean): ServiceReport
+  jobServiceReportInExcel(dateFrom: DateTime!, dateTo: DateTime!, state: String, region: Float, storeId: Int, categoryId: Int, brand: Int, service: String, isSalesPersonReport: Boolean, includeQuote: Boolean, includeDeletedJob: Boolean): String
+  jobTotalPayment(id: Int!): JobTotalPaymentResponse
+  getComplianceByJobId(id: Int!): Job
+  retryPaymentLink(id: Int!): Job
+  contraPaymentHistory(startDate: DateTime!, endDate: DateTime!, limit: Int, offset: Int): ContraPaymentHistoryResponse
+  searchPhotos(searchQuery: String): [Photo]
+  salePeoples(id: Int, storeId: Int, status: String, storeName: String, limit: Int, offset: Int): SalesPeopleResponse
+  salePeople(where: SalePeopleWhereById): SalePeople
+  salesPersonPayments(offset: Int, limit: Int, storeIds: [Int!], salePeopleId: Int, startDate: DateTime!, endDate: DateTime!, state: String, status: String): [JobSalePeople]
+  mainServices(where: MainServiceWhere, limit: Int, offset: Int): [MainServicePrice]
+  mainServicesV2(where: MainServiceWhere, includePrice: Boolean, term: String, limit: Int, offset: Int): MainServiceResponse
+  mainService(where: MainServiceWhere): MainService
+  addons(categoryId: Int, state: String, status: String, limit: Int, offset: Int): AddonsResponse
+  addon(id: Int): Addon
+  getTeamsByTechnicianId(offset: Int, limit: Int, where: TeamsWhere): TeamsResponse
+  getTeam(teamUserId: Int): Team
+  getJobsForCalender(bookedDateStart: DateTime!, bookedDateEnd: DateTime!, technicianIds: Int, teamIds: Int): [CalenderJobDetailResponse!]
+  getCalendarPerson: [CalenderPersonResponse!]
+  technicians(offset: Int, limit: Int, where: TechnicianWhere): TechnicianResponse
+  technician(offset: Int, limit: Int, where: TechnicianWhere): Technician
+  techniciansBulkPayments(startDate: DateTime!, endDate: DateTime!, limit: Int, offset: Int): TechniciansBulkPaymentResponse
+  technicianCompanySearch(name: String!): [Technician]
+  technicianLicensePolicys(id: Int!): [TechnicianLicensePolicies!]
+  technicianLegalTypes: [TechnicianLegalType]
+  technicianRemittanceFiles(technicianId: Int!, limit: Int, offset: Int): TechnicianRemittanceFiles
+  technicianRemittanceFileDetail(technicianId: Int, technicianPaymentFile: String): [JobTechnician]
+  technicianReport(dateFrom: DateTime!, dateTo: DateTime!, state: String, categoryId: Int): TechnicianReport
+  getIssueRequestTypes: [RequestType!]
+  getIssuesByReporter(dateFrom: DateTime!, dateTo: DateTime!, searchValue: String, limit: Int!, offset: Int!): IssueDataResponse!
+  searchUserByEmail(email: String!): Int
+  getAttachmentByIssueId(issueId: String!): [Attachment!]
+  getAttachmentContent(attachmentContentUrl: String!): String
+  getPbxRecords(offset: Int, limit: Int): PbxRecordsResponse
+  reminders(id: Int, status: String, limit: Int, offset: Int): ReminderResponse
+  reminder(where: ReminderWhereById): Reminder
+  getNotice(where: NoticeWhereById): NoticeBoardContent
+  getNotices(storeId: Int, state: String, technicianId: Int, targetRole: String, limit: Int, offset: Int): NoticeBoardContentResponse
+  getMyNotices(args: NoticeWhere, limit: Int, offset: Int): [NoticeBoardContent]
+}
+
+input RegionWhere {
+  id: Int
+}
+
+input StoreWhere {
+  id: Int
+  storeName: String
+  storeUserId: Int
+  processPayment: Boolean
+  smsNotification: Boolean
+  sendInvoice: Boolean
+  isSendStoreInvoiceInBackground: Boolean
+  states: [String]
+  regionId: Int
+  storeId: Int
+}
+
+enum DeviceType {
+  PHONE
+  WEB
+}
+
+input UserWhere {
+  id: Int
+  email: String
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  passwordValidTill: DateTime
+  phone: String
+  status: String
+}
+
+input CategoryWhere {
+  id: Int
+  categoryName: String
+  countryCode: String
+}
+
+input ProductWhere {
+  id: Int
+  categoryId: Int
+}
+
+input JobWhere {
+  id: Int
+  jobNumber: String
+  posInvoiceNumber: String
+  customerName: String
+  customerPhone: String
+  customerEmail: String
+  storeId: Int
+  creatorId: Int
+}
+
+input JobDelaysWhere {
+  state: String
+}
+
+input SalePeopleWhereById {
+  id: Int!
+}
+
+input MainServiceWhere {
+  id: Int
+  storeId: Int
+  service: String
+  status: [String]
+  productId: Int
+  state: String
+  serviceStatus: String
+  priceStatus: String
+}
+
+input TeamsWhere {
+  id: Int
+  status: String
+}
+
+input TechnicianWhere {
+  id: Int
+  technicianUserId: Int
+  categoryId: Int
+  showReport: Boolean
+  states: [String]
+  name: String
+  businessName: String
+  activityStatus: String
+  area: String
+  status: String
+  categoryName: String
+  showTechnicianStat: Boolean
+}
+
+input ReminderWhereById {
+  id: Int
+}
+
+input NoticeWhereById {
+  id: Int
+}
+
+input NoticeWhere {
+  id: Int
+  storeId: Int
+  technicianId: Int
+  state: String
+  creatorId: Int
+  limit: Int
+  offset: Int
+  isDisplay: Boolean
+  expiryDate: DateTime
+}
+
+type Mutation {
+  createStore(data: StoreInput!): Store
+  updateStore(data: StoreInput!): Store
+  removeStore(id: Int!): Int
+  updateStorePayment(data: StorePaymentInput!): Store
+  updateStoreTentativeDay(data: StoreTentativeDayInput!): Boolean
+  createUser(data: UserInput!): User
+  updateUser(data: UserInput!): User
+  updateRoleFeature(userTypeId: Int!, featureIds: [Int]): [RoleFeature]
+  updateUserFeature(userId: Int!, featureIds: [Int]): [UserFeature]
+  changePassword(username: String!, password: String!, newPassword: String!, passwordValidTill: DateTime!): User
+  deleteUser(id: Int!): Int
+  deleteFranchisee(id: Int!): Int
+  createAdmin(data: UserInput!): User
+  createFranchiseeUser(data: FranchiseeInput!): FranchiseeStore
+  createHeadOfficeUser(data: UserInput!): User
+  getFile(key: String!): String
+  changeCountry(countryCode: String!): User
+  deleteNotification(id: Int, contextType: [String!]): Int
+  subscribeToPushNotification(deviceName: DeviceType!, fcmToken: String!): Int
+  createProduct(data: CreateProductInput!): Product
+  updateProduct(data: UpdateProductInput!): Product
+  removeProduct(id: Float!): Int
+  createCategory(data: CreateCategoryInput!): Category
+  updateCategory(data: UpdateCategoryInput!): Category
+  createProductModel(data: CreateProductModelInput!): ProductModel
+  updateProductModel(data: UpdateProductModelInput!): ProductModel
+  removeProductModel(id: Float!): Int
+  updateSiteSettings(data: UpdateSiteSettignsInput): SiteSettings
+  createJob(data: JobInput!): Job
+  createQuoteDraft(data: JobQuoteDraftInput!): Job
+  updateJob(id: Int!, data: JobInput): Job
+  updateJobServiceAddon(id: Int!, service: JobServiceInput): JobService
+  addJobServiceAddon(id: Int!, service: JobServiceInput): JobService
+  deleteJob(id: Int!, deleteReason: String): Job
+  deleteJobServiceAddon(id: Int!): Job
+  updateJobStatus(id: Int!, status: String!, date: DateTime, dateEnd: DateTime, teamIds: [Int], reason: String): Job
+  updateJobCustomerDetail(id: Int!, data: JobCustomerInput): Job
+  completeJobWithDoc(id: Int, qbccDocument: Upload, complianceCertificate: [ComplianceCertificateInput]): Job
+  uploadQbccDocument(id: Int, qbccDocument: Upload): Job
+  updateBulkTechnicianPayment(id: [Int!]!, status: String!, fileName: String, notes: String): Boolean
+  updateBulkTechnicianPaymentV2(data: [UpdateBulkTechnicianInput]): Boolean
+  assignJobTechnician(id: Int!, technicianId: Int!, qbccStatus: Boolean): Job
+  removeJob(id: Int!): Int
+  encryptJob(id: Int!): Job
+  deleteJobDocument(id: Int!): Int
+  saveJobDelays: JobDelays
+  sendEmail(email: String!, jobId: Int!, subject: String, text: String): Job
+  updateJobTotals(job: JobInput!): Job
+  updateTechnicianBookedDate(jobTechnicianID: Int, bookedDate: DateTime, bookedDateEnd: DateTime, teamIds: [Int]): Job
+  generateTechnicianInvoice(job: JobInput): Job
+  getTechnicianInvoice(id: Int): Job
+  uploadJobDocument(id: Int, document: [ComplianceCertificateInput]): Job
+  reUploadJobDocument(id: Int, document: Upload): JobDocument
+  updateJobDocumentStatus(id: Int, jobId: Int, status: String, reason: String): [JobDocument]
+  updateTechnicanComments(id: Int!, technicianComments: String): Job
+  uploadAdditionalDocument(data: JobAdditionalDocumentInput): Job
+  createJobComment(data: JobCommentInput!): JobComment
+  updateJobComment(id: Int!, data: JobCommentInput): JobComment
+  createJobPayment(data: JobPaymentInput): Job
+  updateSpecialDiscount(id: Int!, specialDiscount: Float): Job
+  shiftJobIntoManualRequstToProcessing(id: Int!, comment: String): Job
+  cancelStorePayment(id: Int!): AdminPay
+  resendStorePaymentInvoice(id: Int!): AdminPay
+  changeAdminPayStatus(ids: [Int]): [AdminPay!]
+  updateRefundAmount(id: Int!, refundAmount: Float, refundDate: DateTime): Job
+  updateSpecialTechnicianCommission(id: Int!, otherCommission: Float): Job
+  updatJobTotalAndTechnicianCommission(jobId: Int!, jobServiceId: Int!, initialPrice: Float!, initialName: String!, initialDescription: String!, initialTechnicianCommission: Float!): Job
+  duplicateJob(id: Int): Job
+  updateJobSalePeople(id: Int!, salePeopleId: Int): Job
+  resendPaymentLink(id: Int!, redirectUrl: String, isSendEmail: Boolean): Job
+  verifyPaymentPayway(encryptedParameters: String, signature: String): VerifyPaymentResponse
+  verifyPaymentVerifone(checkoutId: String, transactionId: String): VerifyPaymentResponse
+  makePaymentPaywayV2(jobId: Float!, cardNumber: String!, expiry: String!, cvv: Float!, paymentMethod: String!, cardholderName: String!): VerifyPaymentResponse
+  sendSms(id: Int!, message: String!): Job
+  generateStoreInvoice(id: Int!): String
+  generatePhotoUploadUrl(filename: String!): PhotoUploadUrl
+  addS3Photo(imageLatitude: Float, imageLongitude: Float, filename: String, fileLocation: String, description: String, tags: String, imageCreateDate: String, imageCreatePlace: String): Photo
+  updateS3Photo(id: Float!, imageLatitude: Float, imageLongitude: Float, filename: String, fileLocation: String, description: String, tags: String, imageCreateDate: String, imageCreatePlace: String): Photo
+  addPhoto(file: Upload!, description: String!, tags: String!): Photo
+  removePhoto(id: Int!): Int
+  createSalePeople(data: SalePeopleInput!): SalePeople
+  updateSalePeople(data: SalePeopleInput!): SalePeople
+  removeSalePeople(id: Int!): Int
+  bulkUpdateSalePeopleCommission(data: SalePersonCategoryWiseCommission!): Boolean
+  salesPersonHistoryByStoreIds(storeIds: [Int]!, startDate: DateTime!, endDate: DateTime!): [SalesPersonHistory]
+  salesPersonReportInExcel(storeIds: [Int]!, startDate: DateTime!, endDate: DateTime!): String
+  salesPersonMontlyMovxReportInExcel(states: [String!]!, startDate: DateTime!, endDate: DateTime!, makePayment: Boolean!): String
+  updateBulkSalesPersonPayment(jobIds: [Int]!, status: String!, fileName: String!): [JobSalePeople]
+  createMainServicePrice(data: MainServicePriceInput!): [MainServicePrice]
+  updateMainServicePrice(data: MainServicePriceInput!): MainServicePrice
+  removeMainServicePrice(id: Int!): Int
+  createAddon(data: AddonInput!): Addon
+  updateAddon(data: AddonInput!): Addon
+  removeAddon(id: Int!): Int
+  createMainService(data: MainServiceInput!): MainService
+  updateMainService(data: MainServiceInput!): MainService
+  removeMainService(id: Int!): Int
+  createTeam(data: CreateTeamInput!): Team
+  deleteTeam(id: Float!): Int
+  updateTeam(id: Int!, username: String, name: String, phone: String, email: String, password: String, status: String): Int
+  registerTechnician(data: TechnicianInput!): Technician
+  createTechnician(data: TechnicianMinimalInput!): Technician
+  updateTechnician(data: TechnicianMinimalInput!): Technician
+  uploadTechnicianLicense(data: TechnicianLicenseInput!): Technician
+  uploadCompanyLogo(data: CompanyLogoInput!): Technician
+  updateTechnicianStatus(data: TechnicianStatusInput!): Technician
+  sendTechnicianReminderEmail(id: Int, licence: String): Technician
+  createJiraRequest(issueData: CreateIssueDataInput!): JiraIssueResponse
+  sendPbxSms(pbxRecordUuid: String!): PbxCallRecord
+  sendPbxEmail(pbxRecordUuid: String!): PbxCallRecord
+  sendSupportLinkBySms(mobile: String!): Boolean
+  sendSupportLinkByEmail(email: String!): Boolean
+  createReminder(data: ReminderInput!): Reminder
+  updateReminder(data: ReminderInput!): Reminder
+  removeReminder(id: Int!): Int
+  createNotice(data: NoticeInput): NoticeBoardContent
+  editNotice(data: NoticeInput): NoticeBoardContent
+}
+
+input StoreInput {
+  id: Int
+  username: String
+  password: String
+  phone: String
+  email: String
+  divCode: String
+  passwordValidTill: DateTime
+  sessionExpired: Boolean
+  processPayment: Boolean
+  smsNotification: Boolean
+  sendInvoice: Boolean
+  isSendStoreInvoiceInBackground: Boolean
+  adminComment: String
+  countryCode: String
+  contact: String
+  storeName: String
+  address: String
+  state: String
+  regionId: Int
+  status: String
+  tentativeJobDelay: Int
+  selectedCategories: [Int]
+}
+
+input StorePaymentInput {
+  id: Int
+  accessToUseCreditCard: Boolean
+  accessToUseInStoreFinance: Boolean
+  accessToUseInStorePayment: Boolean
+  accessToManualJobRequest: Boolean
+}
+
+input StoreTentativeDayInput {
+  ids: [Int]
+  tentativeJobDelay: Int
+}
+
+input UserInput {
+  id: Int
+  email: String
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  phone: String
+  status: String
+  countryCode: String
+  passwordValidTill: DateTime
+  sessionExpired: Boolean
+  accessLevel: String
+  isSelectedAllState: Boolean
+  selectedStates: String
+  selectedStoreIds: String
+  selectedCategoryIds: String
+  selectedProductIds: String
+}
+
+input FranchiseeInput {
+  email: String
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  phone: String
+  status: String
+  passwordValidTill: DateTime
+  sessionExpired: Boolean
+  store: Int
+}
+
+input CreateProductInput {
+  categoryId: Int
+  brand: String
+  status: String
+}
+
+input UpdateProductInput {
+  id: Int
+  categoryId: Int
+  brand: String
+  status: String
+}
+
+input CreateCategoryInput {
+  categoryName: String
+  advancePaymentPercent: Float
+  bookJobIcon: String
+  status: String
+}
+
+input UpdateCategoryInput {
+  id: Int
+  categoryName: String
+  advancePaymentPercent: Float
+  bookJobIcon: String
+  status: String
+}
+
+input CreateProductModelInput {
+  categoryId: Int
+  productId: Int
+  modelNo: String
+  status: String
+  type: String
+}
+
+input UpdateProductModelInput {
+  id: Int
+  categoryId: Int
+  productId: Int
+  modelNo: String
+  status: String
+  type: String
+}
+
+input UpdateSiteSettignsInput {
+  keyString: String
+  value: String
+}
+
+input JobInput {
+  id: Int
+  storeId: Int
+  type: String
+  jobServices: [JobServiceInput]
+  categoryId: Int
+  jobNumber: String
+  posInvoiceNumber: String
+  tentativeDateStart: DateTime
+  tentativeDateEnd: DateTime
+  customerName: String
+  customerPhone: String
+  customerEmail: String
+  customerAddress: String
+  customerHouseNo: String
+  customerAddressStreet: String
+  customerAddressSuburb: String
+  customerAddressState: String
+  customerAddressPostcode: String
+  technicianAction: String
+  airconSetupFrom: String
+  adminComments: String
+  salespersonComments: String
+  tenantsPhone: String
+  tenantsName: String
+  installationAddress: String
+  installationAddressStreet: String
+  installationAddressSuburb: String
+  installationAddressState: String
+  installationAddressPostcode: String
+  SecuredCardData: String
+  EWAY_ACCESSCODE: String
+  technicianComments: String
+  availableWarehouse: String
+  status: String
+  attachment: String
+  adminPay: Float
+  adminPayComment: String
+  qbccStatus: Boolean
+  isConvertQuoteToJob: Boolean
+  quoteRefNumber: Int
+  quoteDraftRefNumber: Int
+  salePeopleId: Int
+  isAdjustService: Boolean
+  isQuoteDraft: Boolean
+  specialDiscount: Float
+  specialDiscountComment: String
+  refundAmount: Float
+  refundDate: DateTime
+  splitJobId: Int
+  isExternalPayment: Boolean
+  redirectUrl: String
+  paymentType: String
+  paymentReferenceNo: String
+  paymentApprovedSalePeopleId: Int
+}
+
+input JobServiceInput {
+  id: Int
+  mainServicePriceId: Int!
+  quantity: Int!
+  serialNo: Int!
+  jobServiceAddons: [JobServiceAddonInput]
+  jobServiceProductModel: JobServiceProductModelInput
+}
+
+input JobServiceAddonInput {
+  id: Int
+  jobServiceId: Int
+  addonId: Int!
+  quantity: Int!
+  total: Float
+  notes: String
+}
+
+input JobServiceProductModelInput {
+  id: Int
+  jobServiceId: Int
+  productId: Int
+  productModelId: Int
+  modelNo: String
+}
+
+input JobQuoteDraftInput {
+  jobServices: [JobServiceInput]
+  technicianComments: String
+  quoteRefNumber: Int
+}
+
+input JobCustomerInput {
+  id: Int
+  customerPhone: String
+  customerEmail: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input ComplianceCertificateInput {
+  id: Int
+  type: String
+  file: Upload
+  status: String
+  reason: String
+}
+
+input UpdateBulkTechnicianInput {
+  technicianId: Int
+  jobIds: [Int!]
+  notes: String
+  status: String
+}
+
+input JobAdditionalDocumentInput {
+  id: Int
+  file: Upload
+}
+
+input JobCommentInput {
+  contextType: String
+  message: String!
+  jobId: Int
+}
+
+input JobPaymentInput {
+  id: Int
+  adminPay: Float
+  adminPayComment: String
+  redirectUrl: String
+  paymentType: String
+  paymentReferenceNo: String
+  paymentApprovedSalePeopleId: Int
+}
+
+input SalePeopleInput {
+  attachment: String
+  id: Int
+  storeId: Int
+  firstName: String
+  lastName: String
+  payRollNr: String
+  status: String
+}
+
+input SalePersonCategoryWiseCommission {
+  storeIds: [Int]
+  commissions: [CategoryWiseCommission]
+}
+
+input CategoryWiseCommission {
+  categoryId: Int
+  commission: Float
+}
+
+input MainServicePriceInput {
+  id: Int
+  storeIds: [Int!]
+  mainServiceId: Int
+  price: Float
+  discount: Float
+  otherCommission: Float
+  technicianCommission: Float
+  gradeATechnicianCommission: Float
+  gradeBTechnicianCommission: Float
+  gradeCTechnicianCommission: Float
+  gradeDTechnicianCommission: Float
+  state: String
+  status: String
+}
+
+input AddonInput {
+  id: Int
+  productId: Int
+  storeId: Int
+  title: String
+  attachment: Upload
+  price: Float
+  technicianCommission: Float
+  gradeATechnicianCommission: Float
+  gradeBTechnicianCommission: Float
+  gradeCTechnicianCommission: Float
+  gradeDTechnicianCommission: Float
+  description: String
+  state: String
+  status: String
+  isRequiredExtraNotes: Boolean
+}
+
+input MainServiceInput {
+  id: Int
+  productId: Int
+  customerDiscount: Float
+  lessTechnicianCommission: Float
+  prices: [MainServicePriceInput]
+  service: String
+  description: String
+  type: String
+  status: String
+  attachment: String
+  isItPossibleQuoteToJob: Boolean
+  isOverwriteAllStatus: Boolean
+  isEmailSendToStore: Boolean
+  isEmailSendToCustomer: Boolean
+  isEmailSendToSpecificPerson: String
+}
+
+input CreateTeamInput {
+  name: String!
+  username: String!
+  email: String!
+  phone: String!
+  technicianId: Int!
+  password: String!
+  status: String
+}
+
+input TechnicianInput {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  phone: String
+  businessName: String
+  businessEmail: String
+  abn: String
+  state: String
+  address: String
+  addressStreet: String
+  addressSuburb: String
+  addressState: String
+  addressPostcode: String
+  username: String
+  password: String
+  activityStatus: String
+  jobArea: String
+  adminComment: String
+  technicianGrade: String
+  categories: [Int]
+  complianceCertificateCategories: [Int]
+  status: String
+  showReport: Boolean
+  attachment: String
+  technicianCommissionShowOnApp: Boolean
+}
+
+input TechnicianMinimalInput {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  phone: String
+  businessName: String
+  businessEmail: String
+  abn: String
+  state: String
+  address: String
+  addressStreet: String
+  addressSuburb: String
+  addressState: String
+  addressPostcode: String
+  username: String
+  password: String
+  activityStatus: String
+  jobArea: String
+  adminComment: String
+  technicianGrade: String
+  categories: [Int]
+  complianceCertificateCategories: [Int]
+  status: String
+  showReport: Boolean
+  file: Upload
+  loginStatus: String
+  accountName: String
+  accountNumber: String
+  bsb: String
+  technicianCommissionShowOnApp: Boolean
+  contractFile: Upload
+}
+
+input TechnicianLicenseInput {
+  id: Int
+  expiryDate: DateTime!
+  legalNo: String!
+  file: Upload!
+  status: String
+  remainder: String
+  reminderDate: DateTime
+  technicianId: Int!
+  technicianlegalTypeId: Int!
+  rejectionNote: String
+}
+
+input CompanyLogoInput {
+  id: Int
+  file: Upload!
+}
+
+input TechnicianStatusInput {
+  id: Int
+  status: String
+  rejectionNote: String
+}
+
+input CreateIssueDataInput {
+  description: String!
+  summary: String!
+  priority: String!
+  email: String!
+  issueTypeId: String!
+  referenceId: String!
+}
+
+input ReminderInput {
+  id: Int!
+  status: String
+  details: String
+  creator: String
+  dueDate: DateTime
+}
+
+input NoticeInput {
+  id: Int!
+  subject: String!
+  content: String!
+  storeId: [Int]
+  technicianId: [Int]
+  state: [String]
+  contentId: Int
+  isDisplay: Boolean
+  targetRole: String
+  isSelectedAllStore: Boolean
+  isSelectedAllTechnician: Boolean
+  expiryDate: DateTime
+}

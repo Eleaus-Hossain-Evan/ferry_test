@@ -1,0 +1,6 @@
+query TechnicianJobsCounts {
+  upcoming: technicianJobsCount(action: "assigned")
+  accepted: technicianJobsCount(action: "accepted")
+  quoteDraft: technicianJobsCount(action: "quoteDraft")
+  complete: technicianJobsCount(action: "complete")
+}
