@@ -23,6 +23,8 @@ class AuthRepositoryImpl implements AuthRepository {
     final authUser = await _remoteDataSource.login(email, password);
     // Save successful login data locally
     await _localDataSource.saveAuthUser(authUser);
+    await _localDataSource.saveJwtToken(authUser.jwt);
+    await _localDataSource.reload();
     return authUser;
   }
 
@@ -36,6 +38,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     // Clear user data from local storage
     await _localDataSource.deleteAuthUser();
+    await _localDataSource.deleteJwtToken();
+    await _localDataSource.reload();
     // Potentially notify the backend about logout if needed (not implemented here)
   }
 }

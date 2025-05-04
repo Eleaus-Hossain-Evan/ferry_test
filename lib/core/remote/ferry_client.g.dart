@@ -6,12 +6,11 @@ part of 'ferry_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ferryClientHash() => r'4ab9c8793e699e5e45dbf46a866815e58333b09b';
+String _$ferryClientHash() => r'90bf59d117590ef663107a0020843eb4c9b9bcce';
 
 /// Riverpod provider for the Ferry Client.
 ///
-/// Initializes a [Client] with an [HttpLink] pointing to the GraphQL endpoint.
-/// TODO: Replace 'YOUR_GRAPHQL_ENDPOINT' with the actual URL.
+/// Initializes a [Client] with necessary links including Auth, Error, Logging, and Http.
 ///
 /// Copied from [ferryClient].
 @ProviderFor(ferryClient)

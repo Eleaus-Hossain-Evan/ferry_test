@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ..vars.password = password);
 
     final response = await _client.request(request).first;
-    log('response: $response');
+    log('response: ${response.data}');
 
     if (response.hasErrors || response.data?.loginUser == null) {
       // Handle potential GraphQL errors or null data
